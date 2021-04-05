@@ -1,24 +1,24 @@
-global test : table[addr] of set[string] = table();
+global hwk3 : table[addr] of set[string] = table();
 event http_header (c: connection, is_orig: bool, name: string, value: string)
 {
     if(name=="USER-AGENT")
     {
-            if(c$id$orig_h in test)
+            if(c$id$orig_h in hwk3)
             {
-                    if(!(to_lower(value) in test[c$id$orig_h]))
+                    if(!(to_lower(value) in hwk3[c$id$orig_h]))
                     {
-                            add test[c$id$orig_h][to_lower(value)];
+                            add hwk3[c$id$orig_h][to_lower(value)];
                     }
             }
             else
             {
-                    test[c$id$orig_h]=set(to_lower(value));
+                    hwk3[c$id$orig_h]=set(to_lower(value));
             }
     }
 }
 event zeek_done()
 {
-	for (Addr, Set in test)
+	for (Addr, Set in hwk3)
 	{
 		if(|Set|>=3)
 		{
